@@ -1,7 +1,15 @@
-import * as React from "react"
-import type { HeadFC, PageProps } from "gatsby"
-import { Layout } from "../components/layout/Layout"
-import { Shield, Calendar, Headphones, BookOpen, Building2, Users } from "lucide-react"
+import * as React from "react";
+import { graphql } from "gatsby";
+import type { HeadFC, PageProps } from "gatsby";
+import { Layout } from "../components/layout/Layout";
+import {
+  Shield,
+  Calendar,
+  Headphones,
+  BookOpen,
+  Building2,
+  Users,
+} from "lucide-react";
 import {
   CategoriesSection,
   type CategoryCard,
@@ -15,7 +23,8 @@ import {
   NewsletterSection,
   WhyKeyselySection,
   type WhyKeyselyItem,
-} from "../components/home"
+} from "../components/home";
+import type { MyQueryQuery } from "../graphql/__generated__/types";
 
 const categories: CategoryCard[] = [
   {
@@ -36,7 +45,7 @@ const categories: CategoryCard[] = [
     icon: BookOpen,
     colorClassName: "bg-brand-beige/10 text-brand-beige",
   },
-]
+];
 
 const whyKeysely: WhyKeyselyItem[] = [
   {
@@ -54,39 +63,54 @@ const whyKeysely: WhyKeyselyItem[] = [
     description: "Estamos aquí cuando nos necesites.",
     icon: Headphones,
   },
-]
+];
 
 const howItWorks: HowItWorksStep[] = [
-  { step: "1", title: "Busca", description: "Explora espacios por ubicación, precio y disponibilidad." },
-  { step: "2", title: "Reserva", description: "Elige fecha y hora y confirma tu reserva al instante." },
-  { step: "3", title: "Disfruta", description: "Gestiona tus reservas y reseñas desde tu panel." },
-]
+  {
+    step: "1",
+    title: "Busca",
+    description: "Explora espacios por ubicación, precio y disponibilidad.",
+  },
+  {
+    step: "2",
+    title: "Reserva",
+    description: "Elige fecha y hora y confirma tu reserva al instante.",
+  },
+  {
+    step: "3",
+    title: "Disfruta",
+    description: "Gestiona tus reservas y reseñas desde tu panel.",
+  },
+];
 
-const featuredArticles: FeaturedArticle[] = [
-  {
-    title: "Cómo elegir el espacio de trabajo ideal para tu startup",
-    excerpt:
-      "Descubre los factores clave que debes considerar al elegir un espacio de trabajo para tu equipo en crecimiento.",
-    category: "Oficinas Privadas",
-    readTime: "5 min",
-  },
-  {
-    title: "Las 5 mejores zonas para coworking en CDMX",
-    excerpt:
-      "Una guía completa de las mejores zonas de la Ciudad de México para encontrar espacios de coworking con todas las amenidades.",
-    category: "Coworking",
-    readTime: "7 min",
-  },
-  {
-    title: "Guía para organizar reuniones productivas",
-    excerpt:
-      "Tips prácticos para aprovechar al máximo tus salas de juntas y hacer reuniones más eficientes.",
-    category: "Salas de Juntas",
-    readTime: "4 min",
-  },
-]
+function estimateReadTimeFromRawRichText(
+  raw: string | null | undefined,
+): string {
+  if (!raw) return "";
+  const text = raw.replace(/\\s+/g, " ").trim();
+  if (!text) return "";
+  // Very rough estimate: Contentful Rich Text JSON is noisy; we approximate by character length.
+  const words = Math.max(1, Math.round(text.length / 5));
+  const minutes = Math.max(1, Math.round(words / 200));
+  return `${minutes} min`;
+}
 
-const IndexPage: React.FC<PageProps> = () => {
+type IndexPageProps = PageProps<MyQueryQuery>;
+
+const IndexPage: React.FC<IndexPageProps> = ({ data }) => {
+  const featuredArticles: FeaturedArticle[] = (
+    data.allContentfulBlogPost.nodes ?? []
+  ).map((node: MyQueryQuery["allContentfulBlogPost"]["nodes"][number]) => {
+    const firstCategory = node.categories?.title ?? "General";
+    const readTime = estimateReadTimeFromRawRichText(node.content?.raw);
+    return {
+      title: node.title ?? "",
+      excerpt: node.abstract ?? "",
+      category: firstCategory,
+      readTime,
+    };
+  });
+
   return (
     <Layout>
       <HeroSection backgroundImageUrl="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1920&q=80" />
@@ -95,15 +119,22 @@ const IndexPage: React.FC<PageProps> = () => {
 
       <FeaturedArticlesSection articles={featuredArticles} />
 
-      <HostCtaSection cta={{ label: "Lista tu espacio", href: "https://keysely.com/about/publish-your-space" }} />
+      <HostCtaSection
+        cta={{
+          label: "Lista tu espacio",
+          href: "https://keysely.com/about/publish-your-space",
+        }}
+      />
       <WhyKeyselySection items={whyKeysely} />
-      <FinalCtaSection cta={{ label: "Explorar espacios", href: "https://keysely.com/search" }} />
+      <FinalCtaSection
+        cta={{ label: "Explorar espacios", href: "https://keysely.com/search" }}
+      />
       <NewsletterSection />
     </Layout>
-  )
-}
+  );
+};
 
-export default IndexPage
+export default IndexPage;
 
 export const Head: HeadFC = () => (
   <>
@@ -113,4 +144,14 @@ export const Head: HeadFC = () => (
       content="Descubre tendencias, guías y consejos sobre espacios de trabajo flexibles, coworking y oficinas en México."
     />
   </>
-)
+);
+
+export const query = graphql`
+  query MyQuery {
+    allContentfulBlogPost(limit: 3, sort: { updatedAt: ASC }) {
+      nodes {
+        ...ContentfulBlogPostFragment
+      }
+    }
+  }
+`;
