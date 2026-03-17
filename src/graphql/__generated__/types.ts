@@ -405,6 +405,7 @@ export type ContentfulBlogPost = ContentfulEntry & ContentfulReference & Node & 
   contentful_id: Scalars['String']['output'];
   coverImage?: Maybe<ContentfulAsset>;
   createdAt?: Maybe<Scalars['Date']['output']>;
+  gatsbyPath?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
   internal: Internal;
   node_locale: Scalars['String']['output'];
@@ -423,6 +424,11 @@ export type ContentfulBlogPostCreatedAtArgs = {
   formatString?: InputMaybe<Scalars['String']['input']>;
   fromNow?: InputMaybe<Scalars['Boolean']['input']>;
   locale?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type ContentfulBlogPostGatsbyPathArgs = {
+  filePath?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -765,6 +771,7 @@ export type ContentfulBlogPostFieldSelector = {
   contentful_id?: InputMaybe<FieldSelectorEnum>;
   coverImage?: InputMaybe<ContentfulAssetFieldSelector>;
   createdAt?: InputMaybe<FieldSelectorEnum>;
+  gatsbyPath?: InputMaybe<FieldSelectorEnum>;
   id?: InputMaybe<FieldSelectorEnum>;
   internal?: InputMaybe<InternalFieldSelector>;
   node_locale?: InputMaybe<FieldSelectorEnum>;
@@ -786,6 +793,7 @@ export type ContentfulBlogPostFilterInput = {
   contentful_id?: InputMaybe<StringQueryOperatorInput>;
   coverImage?: InputMaybe<ContentfulAssetFilterInput>;
   createdAt?: InputMaybe<DateQueryOperatorInput>;
+  gatsbyPath?: InputMaybe<StringQueryOperatorInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   internal?: InputMaybe<InternalFilterInput>;
   node_locale?: InputMaybe<StringQueryOperatorInput>;
@@ -853,6 +861,7 @@ export type ContentfulBlogPostSortInput = {
   contentful_id?: InputMaybe<SortOrderEnum>;
   coverImage?: InputMaybe<ContentfulAssetSortInput>;
   createdAt?: InputMaybe<SortOrderEnum>;
+  gatsbyPath?: InputMaybe<SortOrderEnum>;
   id?: InputMaybe<SortOrderEnum>;
   internal?: InputMaybe<InternalSortInput>;
   node_locale?: InputMaybe<SortOrderEnum>;
@@ -3228,6 +3237,7 @@ export type QueryContentfulBlogPostArgs = {
   contentful_id?: InputMaybe<StringQueryOperatorInput>;
   coverImage?: InputMaybe<ContentfulAssetFilterInput>;
   createdAt?: InputMaybe<DateQueryOperatorInput>;
+  gatsbyPath?: InputMaybe<StringQueryOperatorInput>;
   id?: InputMaybe<StringQueryOperatorInput>;
   internal?: InputMaybe<InternalFilterInput>;
   node_locale?: InputMaybe<StringQueryOperatorInput>;
@@ -4588,9 +4598,9 @@ export type ContentfulBlogPostPageQueryVariables = Exact<{
 }>;
 
 
-export type ContentfulBlogPostPageQuery = { __typename?: 'Query', contentfulBlogPost?: { __typename?: 'ContentfulBlogPost', id: string, slug?: string | null, seoKeywords?: Array<string | null> | null, title?: string | null, abstract?: string | null, createdAt?: string | null, categories?: { __typename?: 'ContentfulCategory', id: string, slug?: string | null, title?: string | null, iconName?: string | null } | null, author?: { __typename?: 'ContentfulBlogPostAuthor', username?: string | null, firstName?: string | null, lastName?: string | null, bio?: { __typename?: 'contentfulBlogPostAuthorBioTextNode', bio?: string | null } | null, avatar?: { __typename?: 'ContentfulAsset', description?: string | null, gatsbyImage?: any | null } | null } | null, coverImage?: { __typename?: 'ContentfulAsset', gatsbyImage?: any | null } | null, content?: { __typename?: 'ContentfulBlogPostContent', raw?: string | null } | null } | null, related: { __typename?: 'ContentfulBlogPostConnection', nodes: Array<{ __typename?: 'ContentfulBlogPost', id: string, slug?: string | null, title?: string | null, categories?: { __typename?: 'ContentfulCategory', title?: string | null } | null, coverImage?: { __typename?: 'ContentfulAsset', gatsbyImage?: any | null } | null }> } };
+export type ContentfulBlogPostPageQuery = { __typename?: 'Query', site?: { __typename?: 'Site', siteMetadata?: { __typename?: 'SiteSiteMetadata', title?: string | null, siteUrl?: string | null } | null } | null, contentfulBlogPost?: { __typename?: 'ContentfulBlogPost', id: string, slug?: string | null, seoKeywords?: Array<string | null> | null, title?: string | null, abstract?: string | null, createdAt?: string | null, categories?: { __typename?: 'ContentfulCategory', id: string, slug?: string | null, title?: string | null, iconName?: string | null } | null, author?: { __typename?: 'ContentfulBlogPostAuthor', username?: string | null, firstName?: string | null, lastName?: string | null, bio?: { __typename?: 'contentfulBlogPostAuthorBioTextNode', bio?: string | null } | null, avatar?: { __typename?: 'ContentfulAsset', description?: string | null, gatsbyImage?: any | null } | null } | null, coverImage?: { __typename?: 'ContentfulAsset', gatsbyImage?: any | null } | null, content?: { __typename?: 'ContentfulBlogPostContent', raw?: string | null } | null } | null, related: { __typename?: 'ContentfulBlogPostConnection', nodes: Array<{ __typename?: 'ContentfulBlogPost', id: string, slug?: string | null, title?: string | null, categories?: { __typename?: 'ContentfulCategory', title?: string | null } | null, coverImage?: { __typename?: 'ContentfulAsset', gatsbyImage?: any | null } | null }> } };
 
 export type MyQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyQueryQuery = { __typename?: 'Query', allContentfulBlogPost: { __typename?: 'ContentfulBlogPostConnection', nodes: Array<{ __typename?: 'ContentfulBlogPost', id: string, slug?: string | null, seoKeywords?: Array<string | null> | null, title?: string | null, abstract?: string | null, createdAt?: string | null, categories?: { __typename?: 'ContentfulCategory', id: string, slug?: string | null, title?: string | null, iconName?: string | null } | null, author?: { __typename?: 'ContentfulBlogPostAuthor', username?: string | null, firstName?: string | null, lastName?: string | null, bio?: { __typename?: 'contentfulBlogPostAuthorBioTextNode', bio?: string | null } | null, avatar?: { __typename?: 'ContentfulAsset', description?: string | null, gatsbyImage?: any | null } | null } | null, coverImage?: { __typename?: 'ContentfulAsset', gatsbyImage?: any | null } | null, content?: { __typename?: 'ContentfulBlogPostContent', raw?: string | null } | null }> } };
+export type MyQueryQuery = { __typename?: 'Query', site?: { __typename?: 'Site', siteMetadata?: { __typename?: 'SiteSiteMetadata', title?: string | null, description?: string | null, siteUrl?: string | null } | null } | null, allContentfulBlogPost: { __typename?: 'ContentfulBlogPostConnection', nodes: Array<{ __typename?: 'ContentfulBlogPost', id: string, slug?: string | null, seoKeywords?: Array<string | null> | null, title?: string | null, abstract?: string | null, createdAt?: string | null, categories?: { __typename?: 'ContentfulCategory', id: string, slug?: string | null, title?: string | null, iconName?: string | null } | null, author?: { __typename?: 'ContentfulBlogPostAuthor', username?: string | null, firstName?: string | null, lastName?: string | null, bio?: { __typename?: 'contentfulBlogPostAuthorBioTextNode', bio?: string | null } | null, avatar?: { __typename?: 'ContentfulAsset', description?: string | null, gatsbyImage?: any | null } | null } | null, coverImage?: { __typename?: 'ContentfulAsset', gatsbyImage?: any | null } | null, content?: { __typename?: 'ContentfulBlogPostContent', raw?: string | null } | null }> } };

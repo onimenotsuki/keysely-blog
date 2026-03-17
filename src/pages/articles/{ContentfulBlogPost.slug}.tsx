@@ -1,6 +1,6 @@
 import * as React from "react"
 import { graphql, Link, type HeadFC, type PageProps } from "gatsby"
-import { GatsbyImage, getImage, type IGatsbyImageData } from "gatsby-plugin-image"
+import { GatsbyImage, getImage, getSrc, type IGatsbyImageData } from "gatsby-plugin-image"
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, INLINES, MARKS, type Document } from "@contentful/rich-text-types"
 import { CalendarDays, ChevronRight, Share2 } from "lucide-react"
@@ -9,6 +9,7 @@ import { Layout } from "../../components/layout/Layout"
 import { NewsletterSection } from "../../components/home"
 import type { ContentfulBlogPostPageQuery } from "../../graphql/__generated__/types"
 import { withKeyselyOriginUtm } from "../../utils/links"
+import { Seo } from "../../components/seo"
 
 type Props = PageProps<ContentfulBlogPostPageQuery>
 
@@ -269,6 +270,12 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
 
 export const query = graphql`
   query ContentfulBlogPostPage($id: String!) {
+    site {
+      siteMetadata {
+        title
+        siteUrl
+      }
+    }
     contentfulBlogPost(id: { eq: $id }) {
       ...ContentfulBlogPostFragment
     }
@@ -292,17 +299,27 @@ export const query = graphql`
   }
 `
 
-export const Head: HeadFC<ContentfulBlogPostPageQuery> = ({ data }) => {
+export const Head: HeadFC<ContentfulBlogPostPageQuery> = ({ data, location }) => {
   const post = data.contentfulBlogPost
-  const title = post?.title ? `${post.title} — Keysely Blog` : "Keysely Blog"
+  const siteUrl = data.site?.siteMetadata?.siteUrl ?? "https://blog.keysely.com"
+  const siteName = data.site?.siteMetadata?.title ?? "Keysely Blog"
+
+  const title = post?.title ? `${post.title} — ${siteName}` : siteName
   const description = post?.abstract ?? "Keysely Blog"
+  const keywords = (post?.seoKeywords?.filter((k): k is string => Boolean(k)) ?? null) as string[] | null
+  const image = getSrc(post?.coverImage?.gatsbyImage ?? null)
 
   return (
-    <>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      {post?.seoKeywords?.length ? <meta name="keywords" content={post.seoKeywords.join(", ")} /> : null}
-    </>
+    <Seo
+      siteUrl={siteUrl}
+      siteName={siteName}
+      title={title}
+      description={description}
+      pathname={location.pathname}
+      image={image}
+      keywords={keywords}
+      type="article"
+    />
   )
 }
 

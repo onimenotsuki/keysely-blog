@@ -2,6 +2,7 @@ import * as React from "react";
 import { graphql } from "gatsby";
 import type { HeadFC, PageProps } from "gatsby";
 import { Layout } from "../components/layout/Layout";
+import { Seo } from "../components/seo";
 import {
   Shield,
   Calendar,
@@ -136,18 +137,33 @@ const IndexPage: React.FC<IndexPageProps> = ({ data }) => {
 
 export default IndexPage;
 
-export const Head: HeadFC = () => (
-  <>
-    <title>Keysely Blog — Guías y consejos sobre espacios de trabajo</title>
-    <meta
-      name="description"
-      content="Descubre tendencias, guías y consejos sobre espacios de trabajo flexibles, coworking y oficinas en México."
+export const Head: HeadFC<MyQueryQuery> = ({ data, location }) => {
+  const siteUrl = data.site?.siteMetadata?.siteUrl ?? "https://blog.keysely.com";
+  const siteName = data.site?.siteMetadata?.title ?? "Keysely Blog";
+  const title = data.site?.siteMetadata?.title ?? "Keysely Blog";
+  const description = data.site?.siteMetadata?.description ?? "";
+
+  return (
+    <Seo
+      siteUrl={siteUrl}
+      siteName={siteName}
+      title={title}
+      description={description}
+      pathname={location.pathname}
+      type="website"
     />
-  </>
-);
+  );
+};
 
 export const query = graphql`
   query MyQuery {
+    site {
+      siteMetadata {
+        title
+        description
+        siteUrl
+      }
+    }
     allContentfulBlogPost(limit: 3, sort: { updatedAt: ASC }) {
       nodes {
         ...ContentfulBlogPostFragment
