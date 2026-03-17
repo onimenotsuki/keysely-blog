@@ -1,5 +1,6 @@
 import * as React from "react"
 import type { GatsbySSR } from "gatsby"
+import { AppProviders } from "./src/providers/AppProviders"
 
 export const onRenderBody: GatsbySSR["onRenderBody"] = ({ setHeadComponents }) => {
   setHeadComponents([
@@ -25,5 +26,9 @@ export const onRenderBody: GatsbySSR["onRenderBody"] = ({ setHeadComponents }) =
     />,
     <meta key="theme-color" name="theme-color" content="#0f172a" />,
   ])
+}
+
+export const wrapRootElement: GatsbySSR["wrapRootElement"] = ({ element }) => {
+  return <AppProviders>{element}</AppProviders>
 }
 
