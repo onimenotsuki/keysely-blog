@@ -1,49 +1,26 @@
 import * as React from "react"
 import { Link, HeadFC, PageProps } from "gatsby"
-
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
+import { Layout } from "../components/layout/Layout"
 
 const NotFoundPage: React.FC<PageProps> = () => {
   return (
-    <main style={pageStyles}>
-      <h1 style={headingStyles}>Page not found</h1>
-      <p style={paragraphStyles}>
-        Sorry 😔, we couldn’t find what you were looking for.
-        <br />
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
-        ) : null}
-        <br />
-        <Link to="/">Go home</Link>.
-      </p>
-    </main>
+    <Layout>
+      <div className="flex flex-1 flex-col items-center justify-center px-4 py-24 text-center">
+        <h1 className="text-6xl font-bold text-brand-navy">404</h1>
+        <p className="mt-4 text-lg text-gray-500">
+          Lo sentimos, no pudimos encontrar lo que buscabas.
+        </p>
+        <Link
+          to="/"
+          className="mt-8 inline-flex h-11 items-center rounded-md bg-brand-blue px-6 text-sm font-medium text-white transition-colors hover:bg-brand-blue/90"
+        >
+          Volver al inicio
+        </Link>
+      </div>
+    </Layout>
   )
 }
 
 export default NotFoundPage
 
-export const Head: HeadFC = () => <title>Not found</title>
+export const Head: HeadFC = () => <title>Página no encontrada — Keysely Blog</title>
