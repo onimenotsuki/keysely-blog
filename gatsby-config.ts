@@ -14,16 +14,18 @@ const config: GatsbyConfig = {
   // Learn more at: https://gatsby.dev/graphql-typegen
   graphqlTypegen: true,
   plugins: [{
-    resolve: 'gatsby-source-contentful',
-    options: {
-      "accessToken": process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
-      "spaceId": process.env.GATSBY_CONTENTFUL_SPACE_ID,
-    }
+   resolve: 'gatsby-source-contentful',
+   options: {
+     "accessToken": process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
+     "spaceId": process.env.GATSBY_CONTENTFUL_SPACE_ID,
+   }
   }, "gatsby-plugin-image", "gatsby-plugin-sharp", "gatsby-transformer-sharp", "gatsby-plugin-postcss", {
-    resolve: 'gatsby-plugin-google-gtag',
-    options: {
-      trackingIds: [ process.env.GATSBY_GOOGLE_TAG_MANAGER_ID],
-    }
+   resolve: "gatsby-plugin-google-tagmanager",
+   options: {
+     id: process.env.GATSBY_GOOGLE_TAG_MANAGER_ID,
+     includeInDevelopment: false,
+     defaultDataLayer: { platform: "gatsby" },
+   }
   }, "gatsby-plugin-sitemap", {
     resolve: 'gatsby-plugin-manifest',
     options: {
