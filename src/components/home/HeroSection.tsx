@@ -1,5 +1,6 @@
 import * as React from "react"
 import { BookOpen, Search } from "lucide-react"
+import { withKeyselyOriginUtm } from "../../utils/links"
 
 interface HeroSectionProps {
   title?: string
@@ -42,7 +43,7 @@ export function HeroSection({
               {primaryCta.label}
             </a>
             <a
-              href={secondaryCta.href}
+              href={withKeyselyOriginUtm(secondaryCta.href)}
               target={secondaryCta.external ? "_blank" : undefined}
               rel={secondaryCta.external ? "noopener noreferrer" : undefined}
               className="inline-flex h-12 items-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"

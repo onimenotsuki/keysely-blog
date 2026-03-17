@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import { withKeyselyOriginUtm } from "../../utils/links"
 
 export function Footer() {
   return (
@@ -20,7 +21,7 @@ export function Footer() {
             <ul className="mt-3 space-y-2">
               <li>
                 <a
-                  href="https://keysely.com/about/help-center"
+                  href={withKeyselyOriginUtm("https://keysely.com/about/help-center")}
                   className="text-sm text-gray-500 hover:text-brand-navy"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -30,7 +31,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://keysely.com/legal/privacy"
+                  href={withKeyselyOriginUtm("https://keysely.com/legal/privacy")}
                   className="text-sm text-gray-500 hover:text-brand-navy"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -40,7 +41,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="https://keysely.com/legal/terms"
+                  href={withKeyselyOriginUtm("https://keysely.com/legal/terms")}
                   className="text-sm text-gray-500 hover:text-brand-navy"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -86,7 +87,7 @@ export function Footer() {
           </p>
           <div className="flex gap-6">
             <a
-              href="https://keysely.com/legal/privacy"
+              href={withKeyselyOriginUtm("https://keysely.com/legal/privacy")}
               className="text-sm text-gray-500 hover:text-brand-navy"
               target="_blank"
               rel="noopener noreferrer"
@@ -94,7 +95,7 @@ export function Footer() {
               Política de Privacidad
             </a>
             <a
-              href="https://keysely.com/legal/cookies"
+              href={withKeyselyOriginUtm("https://keysely.com/legal/cookies")}
               className="text-sm text-gray-500 hover:text-brand-navy"
               target="_blank"
               rel="noopener noreferrer"

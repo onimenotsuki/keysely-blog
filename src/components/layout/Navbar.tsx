@@ -1,5 +1,6 @@
 import * as React from "react"
 import { Link } from "gatsby"
+import { withKeyselyOriginUtm } from "../../utils/links"
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false)
@@ -22,7 +23,7 @@ export function Navbar() {
             Inicio
           </Link>
           <a
-            href="https://keysely.com"
+            href={withKeyselyOriginUtm("https://keysely.com")}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium text-gray-600 transition-colors hover:text-brand-navy"
@@ -30,7 +31,7 @@ export function Navbar() {
             Ir a Keysely
           </a>
           <a
-            href="https://keysely.com/search"
+            href={withKeyselyOriginUtm("https://keysely.com/search")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-9 items-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white transition-colors hover:bg-brand-blue/90"
@@ -67,7 +68,7 @@ export function Navbar() {
               Inicio
             </Link>
             <a
-              href="https://keysely.com"
+              href={withKeyselyOriginUtm("https://keysely.com")}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm font-medium text-gray-600 hover:text-brand-navy"
@@ -75,7 +76,7 @@ export function Navbar() {
               Ir a Keysely
             </a>
             <a
-              href="https://keysely.com/search"
+              href={withKeyselyOriginUtm("https://keysely.com/search")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-9 w-fit items-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white"
