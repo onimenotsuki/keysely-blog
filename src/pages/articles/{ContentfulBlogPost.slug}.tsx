@@ -183,10 +183,13 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
 
   return (
     <Layout>
-      <div className="bg-gray-50">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+      <div className="bg-gray-50 overflow-x-hidden">
+        <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
           {/* Breadcrumbs */}
-          <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-sm text-gray-500">
+          <nav
+            aria-label="Breadcrumb"
+            className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500"
+          >
             <Link to="/" className="hover:text-brand-navy">
               Inicio
             </Link>
@@ -198,9 +201,9 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
             <span className="font-medium text-brand-navy">{categoryTitle}</span>
           </nav>
 
-          <div className="grid gap-8 lg:grid-cols-12">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
             {/* Main */}
-            <article className="lg:col-span-8">
+            <article className="min-w-0 lg:col-span-8">
               <div className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
                 <p className="inline-flex rounded-full bg-brand-blue/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-brand-blue">
                   {categoryTitle}
@@ -242,7 +245,11 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
 
                 {coverImage ? (
                   <div className="mt-8 overflow-hidden rounded-2xl border border-gray-100">
-                    <GatsbyImage image={coverImage} alt="" className="max-h-[420px]" />
+                    <GatsbyImage
+                      image={coverImage}
+                      alt=""
+                      className="h-full w-full max-h-[420px] object-cover"
+                    />
                   </div>
                 ) : null}
 
@@ -255,7 +262,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
             </article>
 
             {/* Sidebar */}
-            <aside className="lg:col-span-4">
+            <aside className="min-w-0 lg:col-span-4">
               <div className="sticky top-24 space-y-6">
                 <div className="rounded-2xl bg-brand-navy p-6 text-white shadow-sm">
                   <h2 className="text-lg font-semibold">¿Necesitas un lugar para trabajar hoy?</h2>
