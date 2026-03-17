@@ -1,6 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js"
+import type { Database } from "../supabase/types/database.types"
 
-export function getSupabaseClient(): SupabaseClient {
+export function getSupabaseClient(): SupabaseClient<Database> {
   const url = process.env.GATSBY_SUPABASE_URL
   // "Publishable key" for Supabase in frontend contexts = anon/public key.
   const publishableKey = process.env.GATSBY_SUPABASE_PUBLISHABLE_KEY ?? process.env.GATSBY_SUPABASE_ANON_KEY

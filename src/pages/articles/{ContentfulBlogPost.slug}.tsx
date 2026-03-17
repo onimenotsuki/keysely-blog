@@ -4,6 +4,7 @@ import { GatsbyImage, getImage, getSrc, type IGatsbyImageData } from "gatsby-plu
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, INLINES, MARKS, type Document } from "@contentful/rich-text-types"
 import { CalendarDays, ChevronRight, Share2 } from "lucide-react"
+import { useQuery } from "@tanstack/react-query"
 
 import { Layout } from "../../components/layout/Layout"
 import { NewsletterSection } from "../../components/home"
@@ -11,6 +12,11 @@ import type { ContentfulBlogPostPageQuery } from "../../graphql/__generated__/ty
 import { withKeyselyOriginUtm } from "../../utils/links"
 import { Seo } from "../../components/seo"
 import { NewsletterSubscribeForm } from "../../components/newsletter/NewsletterSubscribeForm"
+import {
+  fetchMainRecommendedSpaces,
+  type MainRecommendedSpace,
+} from "../../api/mainRecommendedSpaces"
+import { FeaturedSpaces } from "../../components/spaces/FeaturedSpaces"
 
 type Props = PageProps<ContentfulBlogPostPageQuery>
 
@@ -64,6 +70,58 @@ function RelatedPostCard({
 export default function ContentfulBlogPostPage({ data, location }: Props) {
   const post = data.contentfulBlogPost
   if (!post) return null
+
+  const [userLocation, setUserLocation] = React.useState<{ lat: number; lng: number } | null>(null)
+  const [locationError, setLocationError] = React.useState<string | null>(null)
+  const [locationRequested, setLocationRequested] = React.useState(false)
+
+  const {
+    data: recommendedSpaces,
+    isLoading: isLoadingSpaces,
+    isError: isErrorSpaces,
+  } = useQuery<MainRecommendedSpace[]>({
+    queryKey: ["mainRecommendedSpaces", userLocation],
+    queryFn: () =>
+      fetchMainRecommendedSpaces({
+        profileId: null,
+        spaceCategoryId: null,
+        lat: userLocation?.lat ?? null,
+        lng: userLocation?.lng ?? null,
+        limit: 3,
+        scoreWindow: 30,
+        maxDistanceKm: 25,
+      }),
+  })
+
+  const spaceIds = React.useMemo(() => recommendedSpaces?.map((s) => s.id) ?? [], [recommendedSpaces])
+
+  const handleRequestLocation = React.useCallback(() => {
+    if (locationRequested) return
+
+    if (typeof window === "undefined" || !("geolocation" in navigator)) {
+      setLocationError("Tu navegador no soporta geolocalización.")
+      return
+    }
+    setLocationError(null)
+    setLocationRequested(true)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
+      },
+      () => (null),
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+      },
+    )
+  }, [locationRequested])
+
+  React.useEffect(() => {
+    handleRequestLocation()
+  }, [handleRequestLocation])
 
   const coverImage = getImage(post.coverImage?.gatsbyImage ?? null)
   const avatarImage = getImage(post.author?.avatar?.gatsbyImage ?? null)
@@ -256,6 +314,13 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
               </div>
             </aside>
           </div>
+
+          <FeaturedSpaces
+            spaces={recommendedSpaces}
+            isLoading={isLoadingSpaces}
+            isError={isErrorSpaces}
+            locationError={locationError}
+          />
 
         </div>
 
