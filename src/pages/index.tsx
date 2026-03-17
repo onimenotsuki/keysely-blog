@@ -1,5 +1,6 @@
 import * as React from "react";
 import { graphql } from "gatsby";
+import { getImage, type IGatsbyImageData } from "gatsby-plugin-image";
 import type { HeadFC, PageProps } from "gatsby";
 import { Layout } from "../components/layout/Layout";
 import { Seo } from "../components/seo";
@@ -104,11 +105,17 @@ const IndexPage: React.FC<IndexPageProps> = ({ data }) => {
   ).map((node: MyQueryQuery["allContentfulBlogPost"]["nodes"][number]) => {
     const firstCategory = node.categories?.title ?? "General";
     const readTime = estimateReadTimeFromRawRichText(node.content?.raw);
+    const coverImage = getImage(
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      (node.coverImage?.gatsbyImage as IGatsbyImageData | null) ?? null,
+    );
     return {
       title: node.title ?? "",
       excerpt: node.abstract ?? "",
       category: firstCategory,
       readTime,
+      slug: node.slug ?? "",
+      coverImage: coverImage ?? undefined,
     };
   });
 
