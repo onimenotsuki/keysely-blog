@@ -4,14 +4,13 @@ import { GatsbyImage, getImage, getSrc, type IGatsbyImageData } from "gatsby-plu
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, INLINES, MARKS, type Document } from "@contentful/rich-text-types"
 import { CalendarDays, ChevronRight, Share2 } from "lucide-react"
-import { useMutation } from "@tanstack/react-query"
 
 import { Layout } from "../../components/layout/Layout"
 import { NewsletterSection } from "../../components/home"
 import type { ContentfulBlogPostPageQuery } from "../../graphql/__generated__/types"
 import { withKeyselyOriginUtm } from "../../utils/links"
 import { Seo } from "../../components/seo"
-import { subscribeToNewsletter } from "../../api/newsletter"
+import { NewsletterSubscribeForm } from "../../components/newsletter/NewsletterSubscribeForm"
 
 type Props = PageProps<ContentfulBlogPostPageQuery>
 
@@ -65,11 +64,6 @@ function RelatedPostCard({
 export default function ContentfulBlogPostPage({ data, location }: Props) {
   const post = data.contentfulBlogPost
   if (!post) return null
-
-  const [sidebarEmail, setSidebarEmail] = React.useState("")
-  const sidebarNewsletterMutation = useMutation({
-    mutationFn: (email: string) => subscribeToNewsletter(email),
-  })
 
   const coverImage = getImage(post.coverImage?.gatsbyImage ?? null)
   const avatarImage = getImage(post.author?.avatar?.gatsbyImage ?? null)
@@ -248,40 +242,16 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                   <p className="mt-2 text-xs text-gray-500">
                     Recibe consejos de productividad y ofertas exclusivas cada semana.
                   </p>
-                  <form
-                    onSubmit={(e) => {
-                      e.preventDefault()
-                      sidebarNewsletterMutation.mutate(sidebarEmail)
-                    }}
-                    className="mt-4 space-y-3"
-                  >
-                    <input
-                      type="email"
+                  <div className="mt-4">
+                    <NewsletterSubscribeForm
                       placeholder="Tu email"
-                      value={sidebarEmail}
-                      onChange={(e) => setSidebarEmail(e.currentTarget.value)}
-                      className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-brand-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-blue"
-                      autoComplete="email"
-                      required
-                      disabled={sidebarNewsletterMutation.isPending}
+                      buttonLabel="Suscribirme"
+                      formClassName="space-y-3"
+                      inputClassName="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-brand-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-blue"
+                      buttonClassName="inline-flex h-10 w-full items-center justify-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white hover:bg-brand-blue/90 disabled:cursor-not-allowed disabled:opacity-80"
+                      errorClassName="mt-3 text-xs text-red-600"
                     />
-                    <button
-                      type="submit"
-                      className="inline-flex h-10 w-full items-center justify-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white hover:bg-brand-blue/90 disabled:cursor-not-allowed disabled:opacity-80"
-                      disabled={sidebarNewsletterMutation.isPending}
-                    >
-                      {sidebarNewsletterMutation.isPending ? "Enviando..." : "Suscribirme"}
-                    </button>
-                  </form>
-                  {sidebarNewsletterMutation.isSuccess ? (
-                    <p className="mt-3 text-xs text-green-700">Listo, revisa tu correo.</p>
-                  ) : null}
-                  {sidebarNewsletterMutation.isError ? (
-                    <p className="mt-3 text-xs text-red-600">
-                      {(sidebarNewsletterMutation.error as any)?.message ??
-                        "Ocurrió un error. Inténtalo de nuevo."}
-                    </p>
-                  ) : null}
+                  </div>
                 </div>
               </div>
             </aside>
