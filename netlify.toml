@@ -1,0 +1,10 @@
+
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+  # Set minimum thresholds for each report area
+  [plugins.inputs.thresholds]
+    performance = 0.9
+    accessibility = 0.9
+    bestPractices = 0.9
+    seo = 0.9
