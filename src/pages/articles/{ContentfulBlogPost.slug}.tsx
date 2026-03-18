@@ -29,9 +29,27 @@ function safeJsonParse<T>(value: string | null | undefined): T | null {
   }
 }
 
-function getShareUrl(pathname: string) {
-  const base = "https://blog.keysely.com"
-  return `${base}${pathname}`
+function getShareUrl(pathname: string, origin?: string | null) {
+  const baseFromOrigin = origin && origin !== "null" ? origin : null
+  const runtimeOrigin =
+    typeof window !== "undefined" && window.location?.origin
+      ? window.location.origin
+      : null
+
+  const base = baseFromOrigin ?? runtimeOrigin ?? "https://blog.keysely.com"
+  const absoluteUrl = `${base}${pathname}`
+  const urlWithUtm = withKeyselyOriginUtm(absoluteUrl)
+
+  try {
+    const url = new URL(urlWithUtm)
+    // Específico para enlaces compartidos del artículo
+    url.searchParams.set("utm_content", "article_share")
+    return url.toString()
+  } catch {
+    // Fallback sencillo en caso de que URL falle por alguna razón inesperada
+    const separator = urlWithUtm.includes("?") ? "&" : "?"
+    return `${urlWithUtm}${separator}utm_content=article_share`
+  }
 }
 
 function RelatedPostCard({
@@ -74,6 +92,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
   const [userLocation, setUserLocation] = React.useState<{ lat: number; lng: number } | null>(null)
   const [locationError, setLocationError] = React.useState<string | null>(null)
   const [locationRequested, setLocationRequested] = React.useState(false)
+  const [shareCopied, setShareCopied] = React.useState(false)
 
   const {
     data: recommendedSpaces,
@@ -130,7 +149,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
   const authorName = [post.author?.firstName, post.author?.lastName].filter(Boolean).join(" ")
   const publishedAt = post.createdAt ?? ""
 
-  const shareUrl = getShareUrl(location.pathname)
+  const shareUrl = getShareUrl(location.pathname, (location as Location | undefined)?.origin)
 
   const richTextDoc = safeJsonParse<Document>(post.content?.raw)
   const richText = richTextDoc
@@ -236,12 +255,22 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                     className="inline-flex h-10 items-center justify-center gap-2 rounded-md border border-gray-200 bg-white px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50"
                     onClick={() => {
                       void navigator.clipboard?.writeText(shareUrl)
+                      setShareCopied(true)
+                      window.setTimeout(() => {
+                        setShareCopied(false)
+                      }, 2000)
                     }}
                   >
                     <Share2 className="h-4 w-4" aria-hidden="true" />
                     Copiar link
                   </button>
                 </div>
+
+                {shareCopied ? (
+                  <div className="mt-3 inline-flex items-center rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700">
+                    Link copiado al portapapeles
+                  </div>
+                ) : null}
 
                 {coverImage ? (
                   <div className="mt-8 overflow-hidden rounded-2xl border border-gray-100">
