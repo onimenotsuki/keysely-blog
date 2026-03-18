@@ -15,6 +15,11 @@ export default async function handler(
     return undefined
   }
 
+  // If we don't have geo information, do not restrict access
+  if (!countryCode) {
+    return undefined
+  }
+
   if (countryCode.toUpperCase() === ALLOWED_COUNTRY) {
     // Allow normal handling (static assets, redirects, etc.)
     return undefined
