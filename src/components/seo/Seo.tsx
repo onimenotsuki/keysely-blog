@@ -10,6 +10,8 @@ type SeoProps = {
   keywords?: string[] | null
   type?: "website" | "article"
   noindex?: boolean
+  imageWidth?: number
+  imageHeight?: number
 }
 
 function toAbsoluteUrl(siteUrl: string, maybeRelativeUrl: string) {
@@ -30,6 +32,8 @@ export function Seo({
   keywords,
   type = "website",
   noindex,
+  imageWidth = 1200,
+  imageHeight = 630,
 }: SeoProps) {
   const canonical = toAbsoluteUrl(siteUrl, pathname)
   const ogImage = toAbsoluteUrl(siteUrl, image ?? "/web-app-manifest-512x512.png")
@@ -48,6 +52,8 @@ export function Seo({
       <meta property="og:description" content={description} />
       <meta property="og:url" content={canonical} />
       <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content={String(imageWidth)} />
+      <meta property="og:image:height" content={String(imageHeight)} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />

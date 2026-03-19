@@ -407,6 +407,9 @@ export const Head: HeadFC<ContentfulBlogPostPageQuery> = ({ data, location }) =>
   const description = post?.abstract ?? "Keysely Blog"
   const keywords = (post?.seoKeywords?.filter((k): k is string => Boolean(k)) ?? null) as string[] | null
   const image = getSrc(post?.coverImage?.gatsbyImage ?? null)
+  const ogImageData = getImage(post?.coverImage?.gatsbyImage ?? null)
+  const imageWidth = ogImageData?.width ?? 1200
+  const imageHeight = ogImageData?.height ?? 630
 
   return (
     <Seo
@@ -416,6 +419,8 @@ export const Head: HeadFC<ContentfulBlogPostPageQuery> = ({ data, location }) =>
       description={description}
       pathname={location.pathname}
       image={image}
+      imageWidth={imageWidth}
+      imageHeight={imageHeight}
       keywords={keywords}
       type="article"
     />
