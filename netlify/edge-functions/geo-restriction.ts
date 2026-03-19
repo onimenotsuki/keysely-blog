@@ -2,6 +2,24 @@ import type { Config, Context } from "@netlify/edge-functions"
 
 const ALLOWED_COUNTRY = "MX"
 const NOT_AVAILABLE_PATH = "/no-disponible/"
+// Known social / metadata preview bots that should bypass geo restriction
+const SOCIAL_PREVIEW_BOTS = [
+  "facebookexternalhit", // Facebook
+  "facebot",
+  "twitterbot",
+  "slackbot-linkexpanding",
+  "slack-imgproxy",
+  "linkedinbot",
+  "whatsapp",
+  "discordbot",
+  "telegrambot",
+  "pinterestbot",
+  "google-structured-data-testing-tool",
+  "opengraphxyz", // OpenGraph.xyz validator/fetcher (often without dot)
+  "opengraph.xyz",
+  "opengraph", // broader fallback for OpenGraph tools
+  "metainspector", // OpenGraph.xyz stack includes this in some requests
+]
 
 export default async function handler(
   request: Request,
@@ -9,9 +27,15 @@ export default async function handler(
 ): Promise<Response | URL | undefined> {
   const countryCode = context.geo?.country?.code ?? ""
   const url = new URL(request.url)
+  const userAgent = request.headers.get("user-agent")?.toLowerCase() ?? ""
 
   // Never intercept the not-available page itself or 404, to avoid redirect loops.
   if (url.pathname.startsWith("/no-disponible") || url.pathname.startsWith("/404")) {
+    return undefined
+  }
+
+  // Allow social media preview bots to always crawl metadata
+  if (SOCIAL_PREVIEW_BOTS.some((bot) => userAgent.includes(bot))) {
     return undefined
   }
 
