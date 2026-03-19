@@ -406,10 +406,15 @@ export const Head: HeadFC<ContentfulBlogPostPageQuery> = ({ data, location }) =>
   const title = post?.title ? `${post.title} — ${siteName}` : siteName
   const description = post?.abstract ?? "Keysely Blog"
   const keywords = (post?.seoKeywords?.filter((k): k is string => Boolean(k)) ?? null) as string[] | null
-  const image = getSrc(post?.coverImage?.gatsbyImage ?? null)
   const ogImageData = getImage(post?.coverImage?.gatsbyImage ?? null)
+  const rawImage = getSrc(post?.coverImage?.gatsbyImage ?? null)
   const imageWidth = ogImageData?.width ?? 1200
   const imageHeight = ogImageData?.height ?? 630
+
+  // Facebook / OG requiere mínimo 200x200. Si la imagen del post es muy pequeña
+  // usamos la imagen por defecto global del Seo.
+  const useFallbackImage = !ogImageData || imageWidth < 200 || imageHeight < 200
+  const image = useFallbackImage ? null : rawImage
 
   return (
     <Seo
