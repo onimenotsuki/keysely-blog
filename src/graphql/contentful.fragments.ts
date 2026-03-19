@@ -37,7 +37,8 @@ export const ContentfulBlogPostFragment = graphql`
     seoKeywords
     title
     abstract
-    createdAt(formatString: "DD MMM YYYY", locale: "es")
+    createdAt(fromNow: true, locale: "es")
+    updatedAt(fromNow: true, locale: "es")
     categories {
       ...ContentfulCategoryFragment
     }

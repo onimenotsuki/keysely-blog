@@ -147,7 +147,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
 
   const categoryTitle = post.categories?.title ?? "Blog"
   const authorName = [post.author?.firstName, post.author?.lastName].filter(Boolean).join(" ")
-  const publishedAt = post.createdAt ?? ""
+  const publishedAt = post.updatedAt ?? ""
 
   const shareUrl = getShareUrl(location.pathname, (location as Location | undefined)?.origin)
 
@@ -409,7 +409,7 @@ export const Head: HeadFC<ContentfulBlogPostPageQuery> = ({ data, location }) =>
   const ogImageData = getImage(post?.coverImage?.gatsbyImage ?? null)
   const rawImage = getSrc(post?.coverImage?.gatsbyImage ?? null)
   const imageWidth = ogImageData?.width ?? 1200
-  const imageHeight = ogImageData?.height ?? 630
+  const imageHeight = ogImageData?.height ?? 63
 
   // Facebook / OG requiere mínimo 200x200. Si la imagen del post es muy pequeña
   // usamos la imagen por defecto global del Seo.

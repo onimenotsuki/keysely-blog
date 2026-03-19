@@ -11,6 +11,7 @@ export type FeaturedArticle = {
   readTime: string
   slug: string
   coverImage?: IGatsbyImageData
+  updatedAt: string
 }
 
 interface FeaturedArticlesSectionProps {
@@ -57,7 +58,7 @@ export function FeaturedArticlesSection({
                   <span className="text-xs text-gray-400">{article.readTime}</span>
                 </div>
                 <h3 className="mt-3 font-semibold leading-snug text-brand-navy transition-colors group-hover:text-brand-blue">
-                  {article.title}
+                  {article.title} <span className="text-xs text-gray-400">• {article.updatedAt}</span>
                 </h3>
                 <p className="mt-2 flex-1 text-sm leading-relaxed text-gray-500">{article.excerpt}</p>
                 <Link

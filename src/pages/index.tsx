@@ -116,6 +116,7 @@ const IndexPage: React.FC<IndexPageProps> = ({ data }) => {
       readTime,
       slug: node.slug ?? "",
       coverImage: coverImage ?? undefined,
+      updatedAt: (node.updatedAt as string | undefined) ?? "",
     };
   });
 
