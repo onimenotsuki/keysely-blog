@@ -19,6 +19,55 @@ const config: GatsbyConfig = {
      "accessToken": process.env.GATSBY_CONTENTFUL_ACCESS_TOKEN,
      "spaceId": process.env.GATSBY_CONTENTFUL_SPACE_ID,
    }
+  }, {
+   resolve: "gatsby-plugin-typesense",
+   options: {
+     rootDir: `${__dirname}/public`,
+     exclude: /^\/(?!articles\/).*/,
+     collectionSchema: {
+       name: process.env.TYPESENSE_BLOG_COLLECTION ?? "blog_articles_v1",
+       fields: [
+         {
+           name: "title",
+           type: "string",
+         },
+         {
+           name: "slug",
+           type: "string",
+           optional: true,
+         },
+        {
+          name: "category",
+          type: "string",
+          optional: true,
+        },
+        {
+          name: "cover_image",
+          type: "string",
+          optional: true,
+        },
+         {
+           name: "page_path",
+           type: "string",
+         },
+         {
+           name: "page_priority_score",
+           type: "int32",
+         },
+       ],
+       default_sorting_field: "page_priority_score",
+     },
+     server: {
+       apiKey: process.env.TYPESENSE_ADMIN_API_KEY,
+       nodes: [
+         {
+           host: process.env.TYPESENSE_HOST ?? "localhost",
+           port: process.env.TYPESENSE_PORT ?? "8108",
+           protocol: process.env.TYPESENSE_PROTOCOL ?? "http",
+         },
+       ],
+     },
+   },
   }, "gatsby-plugin-image", "gatsby-plugin-sharp", "gatsby-transformer-sharp", "gatsby-plugin-postcss", {
    resolve: "gatsby-plugin-google-tagmanager",
    options: {

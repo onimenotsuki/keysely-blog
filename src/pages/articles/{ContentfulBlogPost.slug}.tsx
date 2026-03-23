@@ -143,6 +143,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
   }, [handleRequestLocation])
 
   const coverImage = getImage(post.coverImage?.gatsbyImage ?? null)
+  const coverImageSrc = getSrc(post.coverImage?.gatsbyImage ?? null)
   const avatarImage = getImage(post.author?.avatar?.gatsbyImage ?? null)
 
   const categoryTitle = post.categories?.title ?? "Blog"
@@ -228,9 +229,24 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                   {categoryTitle}
                 </p>
 
-                <h1 className="mt-4 text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl">
+                <h1
+                  className="mt-4 text-3xl font-bold tracking-tight text-brand-navy sm:text-4xl"
+                  data-typesense-field="title"
+                >
                   {post.title}
                 </h1>
+                <span className="hidden" data-typesense-field="slug">
+                  {post.slug}
+                </span>
+                <span className="hidden" data-typesense-field="category">
+                  {categoryTitle}
+                </span>
+                <span className="hidden" data-typesense-field="cover_image">
+                  {coverImageSrc ?? ""}
+                </span>
+                <span className="hidden" data-typesense-field="page_priority_score">
+                  10
+                </span>
 
                 <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="flex items-center gap-3">

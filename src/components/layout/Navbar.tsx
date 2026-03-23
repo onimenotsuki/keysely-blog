@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Link } from "gatsby"
 import { withKeyselyOriginUtm } from "../../utils/links"
+import { ArticleSearch } from "./ArticleSearch"
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false)
@@ -15,13 +16,8 @@ export function Navbar() {
           
         </Link>
 
-        <div className="hidden items-center gap-6 md:flex">
-          <Link
-            to="/"
-            className="text-sm font-medium text-gray-600 transition-colors hover:text-brand-navy"
-          >
-            Inicio
-          </Link>
+        <div className="hidden items-center gap-4 md:flex">
+          <ArticleSearch />
           <a
             href={withKeyselyOriginUtm("https://keysely.com")}
             target="_blank"
@@ -61,12 +57,7 @@ export function Navbar() {
       {menuOpen && (
         <div className="border-t border-gray-200 bg-white px-4 py-4 md:hidden">
           <div className="flex flex-col gap-3">
-            <Link
-              to="/"
-              className="text-sm font-medium text-gray-600 hover:text-brand-navy"
-            >
-              Inicio
-            </Link>
+            <ArticleSearch />
             <a
               href={withKeyselyOriginUtm("https://keysely.com")}
               target="_blank"
