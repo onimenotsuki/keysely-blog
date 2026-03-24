@@ -20,6 +20,15 @@ import { FeaturedSpaces } from "../../components/spaces/FeaturedSpaces"
 
 type Props = PageProps<ContentfulBlogPostPageQuery>
 
+function estimateReadTimeFromRawRichText(raw: string | null | undefined): string {
+  if (!raw) return ""
+  const text = raw.replace(/\s+/g, " ").trim()
+  if (!text) return ""
+  const words = Math.max(1, Math.round(text.length / 5))
+  const minutes = Math.max(1, Math.round(words / 200))
+  return `${minutes} min`
+}
+
 function safeJsonParse<T>(value: string | null | undefined): T | null {
   if (!value) return null
   try {
@@ -147,6 +156,8 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
   const avatarImage = getImage(post.author?.avatar?.gatsbyImage ?? null)
 
   const categoryTitle = post.categories?.title ?? "Blog"
+  const createdAtTs = Number(post.createdAt ?? "0")
+  const readTime = estimateReadTimeFromRawRichText(post.content?.raw)
   const authorName = [post.author?.firstName, post.author?.lastName].filter(Boolean).join(" ")
   const publishedAt = post.updatedAt ?? ""
 
@@ -241,8 +252,20 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                 <span className="hidden" data-typesense-field="category">
                   {categoryTitle}
                 </span>
+                <span className="hidden" data-typesense-field="categories">
+                  {categoryTitle}
+                </span>
                 <span className="hidden" data-typesense-field="cover_image">
                   {coverImageSrc ?? ""}
+                </span>
+                <span className="hidden" data-typesense-field="excerpt">
+                  {post.abstract ?? ""}
+                </span>
+                <span className="hidden" data-typesense-field="read_time">
+                  {readTime}
+                </span>
+                <span className="hidden" data-typesense-field="created_at_ts">
+                  {Number.isFinite(createdAtTs) ? createdAtTs : 0}
                 </span>
                 <span className="hidden" data-typesense-field="page_priority_score">
                   10

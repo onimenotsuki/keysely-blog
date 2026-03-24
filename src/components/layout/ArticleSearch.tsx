@@ -119,9 +119,9 @@ export function ArticleSearch() {
           .documents()
           .search({
             q: query,
-            query_by: "title,category",
+            query_by: "title,categories,category",
             per_page: 6,
-            highlight_fields: "title,category",
+            highlight_fields: "title,categories,category",
             highlight_start_tag: "<mark>",
             highlight_end_tag: "</mark>",
           })

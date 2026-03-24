@@ -42,9 +42,31 @@ const config: GatsbyConfig = {
           optional: true,
         },
         {
+          name: "categories",
+          type: "string[]",
+          optional: true,
+          facet: true,
+        },
+        {
           name: "cover_image",
           type: "string",
           optional: true,
+        },
+        {
+          name: "excerpt",
+          type: "string",
+          optional: true,
+        },
+        {
+          name: "read_time",
+          type: "string",
+          optional: true,
+        },
+        {
+          name: "created_at_ts",
+          type: "int64",
+          optional: true,
+          sort: true,
         },
          {
            name: "page_path",

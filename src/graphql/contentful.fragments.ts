@@ -26,7 +26,7 @@ export const ContentfulAuthorFragment = graphql`
 
 export const ContentfulCoverImageFragment = graphql`
   fragment ContentfulCoverImageFragment on ContentfulAsset {
-    gatsbyImage(width: 1200, height: 630, cropFocus: CENTER)
+    gatsbyImage(width: 1600, height: 900, quality: 100, cropFocus: CENTER)
   }
 `
 
@@ -37,7 +37,7 @@ export const ContentfulBlogPostFragment = graphql`
     seoKeywords
     title
     abstract
-    createdAt(fromNow: true, locale: "es")
+    createdAt(formatString: "X")
     updatedAt(fromNow: true, locale: "es")
     categories {
       ...ContentfulCategoryFragment
