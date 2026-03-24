@@ -1,24 +1,24 @@
-import * as React from "react"
-import { ArrowRight } from "lucide-react"
-import { Link } from "gatsby"
-import { GatsbyImage, type IGatsbyImageData } from "gatsby-plugin-image"
-import { withKeyselyOriginUtm } from "../../utils/links"
+import * as React from "react";
+import { ArrowRight } from "lucide-react";
+import { Link } from "gatsby";
+import { GatsbyImage, type IGatsbyImageData } from "gatsby-plugin-image";
+import { withKeyselyOriginUtm } from "../../utils/links";
 
 export type FeaturedArticle = {
-  title: string
-  excerpt: string
-  category: string
-  readTime: string
-  slug: string
-  coverImage?: IGatsbyImageData
-  updatedAt: string
-}
+  title: string;
+  excerpt: string;
+  category: string;
+  readTime: string;
+  slug: string;
+  coverImage?: IGatsbyImageData;
+  updatedAt: string;
+};
 
 interface FeaturedArticlesSectionProps {
-  id?: string
-  articles: FeaturedArticle[]
-  title?: string
-  subtitle?: string
+  id?: string;
+  articles: FeaturedArticle[];
+  title?: string;
+  subtitle?: string;
 }
 
 export function FeaturedArticlesSection({
@@ -28,10 +28,17 @@ export function FeaturedArticlesSection({
   subtitle = "Los artículos más leídos en el blog de Keysely.",
 }: FeaturedArticlesSectionProps) {
   return (
-    <section id={id} className="border-t border-gray-200 bg-brand-blue-light py-16 sm:py-20">
+    <section
+      id={id}
+      className="border-t border-gray-200 bg-brand-blue-light py-16 sm:py-20"
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <h2 className="text-center text-2xl font-semibold text-brand-navy sm:text-3xl">{title}</h2>
-        <p className="mx-auto mt-3 max-w-xl text-center text-gray-500">{subtitle}</p>
+        <h2 className="text-center text-2xl font-semibold text-brand-navy sm:text-3xl">
+          {title}
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-gray-500">
+          {subtitle}
+        </p>
 
         <div className="mx-auto mt-12 grid max-w-5xl gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {articles.map((article) => (
@@ -55,14 +62,21 @@ export function FeaturedArticlesSection({
                   <span className="rounded-full bg-brand-blue/10 px-3 py-1 text-xs font-medium text-brand-blue">
                     {article.category}
                   </span>
-                  <span className="text-xs text-gray-400">{article.readTime}</span>
+                  <span className="text-xs text-gray-400">
+                    {article.readTime}
+                  </span>
                 </div>
                 <h3 className="mt-3 font-semibold leading-snug text-brand-navy transition-colors group-hover:text-brand-blue">
-                  {article.title} <span className="text-xs text-gray-400">• {article.updatedAt}</span>
+                  {article.title}{" "}
+                  <span className="text-xs text-gray-400">
+                    • {article.updatedAt}
+                  </span>
                 </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-gray-500">{article.excerpt}</p>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-gray-500">
+                  {article.excerpt}
+                </p>
                 <Link
-                  to={withKeyselyOriginUtm(`/articles/${article.slug}`)}
+                  to={withKeyselyOriginUtm(`/articles/${article.slug}/`)}
                   className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-blue"
                 >
                   Leer más <ArrowRight className="h-3.5 w-3.5" />
@@ -71,8 +85,15 @@ export function FeaturedArticlesSection({
             </article>
           ))}
         </div>
+        <div className="mt-8 flex justify-center">
+          <Link
+            to="/articles/"
+            className="inline-flex items-center gap-1 text-sm font-medium text-brand-blue"
+          >
+            Ver todos los artículos <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
       </div>
     </section>
-  )
+  );
 }
-

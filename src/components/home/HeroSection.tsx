@@ -14,7 +14,7 @@ export function HeroSection({
   title = "El blog de Keysely",
   description = "Descubre tendencias, guías y consejos sobre espacios de trabajo flexibles, coworking y oficinas en México.",
   backgroundImageUrl,
-  primaryCta = { label: "Leer artículos", href: "#articulos", icon: <BookOpen className="h-4 w-4" /> },
+  primaryCta = { label: "Leer artículos", href: "/articles/", icon: <BookOpen className="h-4 w-4" /> },
   secondaryCta = {
     label: "Explorar espacios",
     href: "https://keysely.com/search",
