@@ -25,7 +25,7 @@ export function NewsletterSection({
               placeholder={placeholder}
               buttonLabel={buttonLabel}
               formClassName="flex flex-col gap-3 sm:flex-row sm:justify-center"
-              inputClassName="h-11 min-w-0 rounded-full border border-gray-300 bg-white px-4 text-sm text-brand-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-blue sm:max-w-xs"
+              inputClassName="h-11 min-w-0 rounded-full border border-gray-300 bg-white px-4 text-sm text-brand-navy placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-blue sm:w-full sm:max-w-md"
               buttonClassName="inline-flex h-11 items-center justify-center rounded-full bg-white px-6 text-sm font-medium text-brand-navy transition-colors hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-80"
               errorClassName="mt-4 text-sm text-red-200"
             />

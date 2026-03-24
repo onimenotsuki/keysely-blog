@@ -1,9 +1,16 @@
 import * as React from "react"
 import { Link, navigate, type HeadFC, type PageProps } from "gatsby"
 import Typesense from "typesense"
+import { useQuery } from "@tanstack/react-query"
 import { ArrowDown, ArrowRight } from "lucide-react"
 
+import {
+  fetchMainRecommendedSpaces,
+  type MainRecommendedSpace,
+} from "../api/mainRecommendedSpaces"
 import { Layout } from "../components/layout/Layout"
+import { NewsletterSection } from "../components/home"
+import { FeaturedSpaces } from "../components/spaces/FeaturedSpaces"
 import { Seo } from "../components/seo"
 
 const PER_PAGE = 6
@@ -189,10 +196,60 @@ export default function ArticlesPage({ location }: PageProps) {
   const [found, setFound] = React.useState(0)
   const [loading, setLoading] = React.useState(true)
   const [error, setError] = React.useState<string | null>(null)
+  const [userLocation, setUserLocation] = React.useState<{ lat: number; lng: number } | null>(null)
+  const [locationError, setLocationError] = React.useState<string | null>(null)
+  const [locationRequested, setLocationRequested] = React.useState(false)
 
   React.useEffect(() => {
     setState(getInitialState(location.search))
   }, [location.search])
+
+  const {
+    data: recommendedSpaces,
+    isLoading: isLoadingSpaces,
+    isError: isErrorSpaces,
+  } = useQuery<MainRecommendedSpace[]>({
+    queryKey: ["mainRecommendedSpaces", userLocation],
+    queryFn: () =>
+      fetchMainRecommendedSpaces({
+        profileId: null,
+        spaceCategoryId: null,
+        lat: userLocation?.lat ?? null,
+        lng: userLocation?.lng ?? null,
+        limit: 3,
+        scoreWindow: 30,
+        maxDistanceKm: 25,
+      }),
+  })
+
+  const handleRequestLocation = React.useCallback(() => {
+    if (locationRequested) return
+
+    if (typeof window === "undefined" || !("geolocation" in navigator)) {
+      setLocationError("Tu navegador no soporta geolocalización.")
+      return
+    }
+
+    setLocationError(null)
+    setLocationRequested(true)
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        })
+      },
+      () => null,
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+      },
+    )
+  }, [locationRequested])
+
+  React.useEffect(() => {
+    handleRequestLocation()
+  }, [handleRequestLocation])
 
   const client = React.useMemo(() => {
     const host = process.env.GATSBY_TYPESENSE_HOST
@@ -527,6 +584,15 @@ export default function ArticlesPage({ location }: PageProps) {
           ) : null}
         </div>
       </div>
+      <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+        <FeaturedSpaces
+          spaces={recommendedSpaces}
+          isLoading={isLoadingSpaces}
+          isError={isErrorSpaces}
+          locationError={locationError}
+        />
+      </div>
+      <NewsletterSection />
     </Layout>
   )
 }
