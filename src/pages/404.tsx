@@ -23,4 +23,4 @@ const NotFoundPage: React.FC<PageProps> = () => {
 
 export default NotFoundPage
 
-export const Head: HeadFC = () => <title>Página no encontrada — Keysely Blog</title>
+export const Head: HeadFC = () => <title>Página no encontrada — Mocal Blog</title>

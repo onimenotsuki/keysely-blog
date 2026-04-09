@@ -1,5 +1,5 @@
 import * as React from "react"
-import { withKeyselyOriginUtm } from "../../utils/links"
+import { withMocalOriginUtm } from "../../utils/links"
 
 interface FinalCtaSectionProps {
   title?: string
@@ -19,7 +19,7 @@ export function FinalCtaSection({
         <p className="mx-auto mt-3 max-w-md text-gray-500">{description}</p>
         <div className="mt-8">
           <a
-            href={withKeyselyOriginUtm(cta.href)}
+            href={withMocalOriginUtm(cta.href)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-12 items-center gap-2 rounded-md bg-brand-blue px-8 text-sm font-medium text-white transition-colors hover:bg-brand-blue/90"

@@ -5,9 +5,9 @@ dotenv.config({ path: '.env' });
 
 const config: GatsbyConfig = {
   siteMetadata: {
-    title: `Keysely Blog — Guías y consejos sobre espacios de trabajo`,
+    title: `Mocal Blog — Guías y consejos sobre espacios de trabajo`,
     description: `Descubre tendencias, guías y consejos sobre espacios de trabajo flexibles, coworking y oficinas en México.`,
-    siteUrl: `https://blog.keysely.com`
+    siteUrl: `https://blog.mocal.com.mx`
   },
   // More easily incorporate content into your pages through automatic TypeScript type generation and better GraphQL IntelliSense.
   // If you use VSCode you can also use the GraphQL plugin
@@ -100,11 +100,11 @@ const config: GatsbyConfig = {
   }, "gatsby-plugin-sitemap", {
     resolve: 'gatsby-plugin-manifest',
     options: {
-      name: "Keysely Blog",
-      short_name: "Keysely",
+      name: "Mocal Blog",
+      short_name: "Mocal",
       start_url: "/",
       background_color: "#ffffff",
-      theme_color: "#0f172a",
+      theme_color: "#0a192f",
       display: "standalone",
       icon: "src/images/manifest-icon.png",
       icon_options: {

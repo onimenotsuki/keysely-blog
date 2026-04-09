@@ -5,27 +5,40 @@ const UTM_CONTENT_KEY = "utm_content";
 
 const UTM_DEFAULT_SOURCE = "blog";
 const UTM_DEFAULT_MEDIUM = "referral";
-const UTM_DEFAULT_CAMPAIGN = "blog_keysely";
+const UTM_DEFAULT_CAMPAIGN = "blog_mocal";
 const UTM_DEFAULT_CONTENT = "generic_link";
 
+/** Main product site hostname. Override with GATSBY_MAIN_SITE_HOST. */
+function getMainSiteHost(): string {
+  if (typeof process !== "undefined" && process.env.GATSBY_MAIN_SITE_HOST) {
+    return process.env.GATSBY_MAIN_SITE_HOST.toLowerCase();
+  }
+  return "mocal.com.mx";
+}
 
-function isKeyselyDomain(hostname: string) {
+function isMocalProductDomain(hostname: string): boolean {
   const h = hostname.toLowerCase();
-  return h === "keysely.com" || h.endsWith(".keysely.com");
+  const main = getMainSiteHost();
+  return h === main || h.endsWith(`.${main}`);
+}
+
+function getBlogOrigin(): string {
+  if (typeof process !== "undefined" && process.env.GATSBY_SITE_URL) {
+    return process.env.GATSBY_SITE_URL.replace(/\/$/, "");
+  }
+  return "https://blog.mocal.com.mx";
 }
 
 /**
  * Appends UTM parameters to:
- * - Any URL pointing to keysely.com (or subdomains)
+ * - Any URL pointing to the Mocal product domain (or subdomains)
  * - Any internal blog article URL (e.g. /articles/slug)
  *
- * It preserves existing query params and hash, and does not overwrite any UTM
- * param that is already present in the URL.
+ * Preserves existing query params and hash; does not overwrite UTMs already set.
  */
-export function withKeyselyOriginUtm(inputUrl: string): string {
+export function withMocalOriginUtm(inputUrl: string): string {
   if (!inputUrl) return inputUrl;
 
-  // Ignore non-http(s) schemes (mailto:, tel:, etc.)
   if (
     /^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(inputUrl) &&
     !/^https?:/i.test(inputUrl)
@@ -33,16 +46,14 @@ export function withKeyselyOriginUtm(inputUrl: string): string {
     return inputUrl;
   }
 
-  // Internal article links (relative)
   const isInternalArticle =
     inputUrl.startsWith("/articles/") ||
     inputUrl === "/articles" ||
     inputUrl === "/articles/";
 
-  const base = "https://blog.keysely.com";
-  const url = new URL(inputUrl, base);
+  const url = new URL(inputUrl, `${getBlogOrigin()}/`);
 
-  if (!isInternalArticle && !isKeyselyDomain(url.hostname)) {
+  if (!isInternalArticle && !isMocalProductDomain(url.hostname)) {
     return inputUrl;
   }
 
@@ -59,7 +70,6 @@ export function withKeyselyOriginUtm(inputUrl: string): string {
     url.searchParams.set(UTM_CONTENT_KEY, UTM_DEFAULT_CONTENT);
   }
 
-  // Return relative URL if input was relative
   const isRelative = inputUrl.startsWith("/") && !inputUrl.startsWith("//");
   if (isRelative) {
     return `${url.pathname}${url.search}${url.hash}`;

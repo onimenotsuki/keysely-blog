@@ -1,7 +1,10 @@
 import * as React from "react"
 import { Link } from "gatsby"
-import { withKeyselyOriginUtm } from "../../utils/links"
+import { withMocalOriginUtm } from "../../utils/links"
 import { ArticleSearch } from "./ArticleSearch"
+import mocalLogoUrl from "../../images/mocal.svg"
+
+const MAIN_SITE = "https://mocal.com.mx"
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false)
@@ -9,25 +12,26 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <img src="/keysely.svg" alt="Keysely" className="h-7 w-auto" />
-          
-            <span className="font-normal text-gray-500">Blog</span>
-          
+        <Link to="/" className="flex items-center gap-3" aria-label="Mocal Blog — inicio">
+          <span className="text-brand-navy" aria-hidden>
+            <img src={mocalLogoUrl} alt="" className="h-8 w-8" />
+          </span>
+          <span className="font-semibold tracking-tight text-brand-navy">Mocal</span>
+          <span className="hidden font-normal text-gray-500 sm:inline">Blog</span>
         </Link>
 
         <div className="hidden items-center gap-4 md:flex">
           <ArticleSearch />
           <a
-            href={withKeyselyOriginUtm("https://keysely.com")}
+            href={withMocalOriginUtm(MAIN_SITE)}
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium text-gray-600 transition-colors hover:text-brand-navy"
           >
-            Ir a Keysely
+            Ir a Mocal
           </a>
           <a
-            href={withKeyselyOriginUtm("https://keysely.com/search")}
+            href={withMocalOriginUtm(`${MAIN_SITE}/search`)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-9 items-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white transition-colors hover:bg-brand-blue/90"
@@ -61,15 +65,15 @@ export function Navbar() {
         <div className="border-t border-gray-200 bg-white px-4 py-4 md:hidden">
           <div className="flex flex-col gap-3">
             <a
-              href={withKeyselyOriginUtm("https://keysely.com")}
+              href={withMocalOriginUtm(MAIN_SITE)}
               target="_blank"
               rel="noopener noreferrer"
               className="text-sm font-medium text-gray-600 hover:text-brand-navy"
             >
-              Ir a Keysely
+              Ir a Mocal
             </a>
             <a
-              href={withKeyselyOriginUtm("https://keysely.com/search")}
+              href={withMocalOriginUtm(`${MAIN_SITE}/search`)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex h-9 w-fit items-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white"

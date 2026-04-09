@@ -9,7 +9,7 @@ import { useQuery } from "@tanstack/react-query"
 import { Layout } from "../../components/layout/Layout"
 import { NewsletterSection } from "../../components/home"
 import type { ContentfulBlogPostPageQuery } from "../../graphql/__generated__/types"
-import { withKeyselyOriginUtm } from "../../utils/links"
+import { withMocalOriginUtm } from "../../utils/links"
 import { Seo } from "../../components/seo"
 import { NewsletterSubscribeForm } from "../../components/newsletter/NewsletterSubscribeForm"
 import {
@@ -45,9 +45,9 @@ function getShareUrl(pathname: string, origin?: string | null) {
       ? window.location.origin
       : null
 
-  const base = baseFromOrigin ?? runtimeOrigin ?? "https://blog.keysely.com"
+  const base = baseFromOrigin ?? runtimeOrigin ?? "https://blog.mocal.com.mx"
   const absoluteUrl = `${base}${pathname}`
-  const urlWithUtm = withKeyselyOriginUtm(absoluteUrl)
+  const urlWithUtm = withMocalOriginUtm(absoluteUrl)
 
   try {
     const url = new URL(urlWithUtm)
@@ -200,7 +200,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
           ),
           [INLINES.HYPERLINK]: (node, children) => (
             <a
-              href={withKeyselyOriginUtm(String(node.data.uri))}
+              href={withMocalOriginUtm(String(node.data.uri))}
               className="font-medium text-brand-blue underline-offset-2 hover:underline"
               target="_blank"
               rel="noopener noreferrer"
@@ -338,7 +338,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                     Reserva tu escritorio o sala de juntas en segundos. Espacios equipados y listos para ti.
                   </p>
                   <a
-                    href={withKeyselyOriginUtm("https://keysely.com/search")}
+                    href={withMocalOriginUtm("https://mocal.com.mx/search")}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="mt-4 inline-flex h-10 w-full items-center justify-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white transition-colors hover:bg-brand-blue/90"
@@ -356,7 +356,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                           key={p.id ?? p.slug ?? ""}
                           title={p.title ?? ""}
                           category={p.categories?.title ?? undefined}
-                          to={withKeyselyOriginUtm(`/articles/${p.slug}`)}
+                          to={withMocalOriginUtm(`/articles/${p.slug}`)}
                           image={getImage(p.coverImage?.gatsbyImage ?? null) ?? undefined}
                         />
                       ))}
@@ -439,11 +439,11 @@ export const query = graphql`
 
 export const Head: HeadFC<ContentfulBlogPostPageQuery> = ({ data, location }) => {
   const post = data.contentfulBlogPost
-  const siteUrl = data.site?.siteMetadata?.siteUrl ?? "https://blog.keysely.com"
-  const siteName = data.site?.siteMetadata?.title ?? "Keysely Blog"
+  const siteUrl = data.site?.siteMetadata?.siteUrl ?? "https://blog.mocal.com.mx"
+  const siteName = data.site?.siteMetadata?.title ?? "Mocal Blog"
 
   const title = post?.title ? `${post.title} — ${siteName}` : siteName
-  const description = post?.abstract ?? "Keysely Blog"
+  const description = post?.abstract ?? "Mocal Blog"
   const keywords = (post?.seoKeywords?.filter((k): k is string => Boolean(k)) ?? null) as string[] | null
   const ogImageData = getImage(post?.coverImage?.gatsbyImage ?? null)
   const rawImage = getSrc(post?.coverImage?.gatsbyImage ?? null)

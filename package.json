@@ -1,8 +1,8 @@
 {
-  "name": "keysely-blog",
+  "name": "mocal-blog",
   "version": "1.0.0",
   "private": true,
-  "description": "keysely-blog",
+  "description": "Blog Gatsby de Mocal (mocal.com.mx)",
   "author": "Edgar Talledos",
   "keywords": [
     "gatsby"

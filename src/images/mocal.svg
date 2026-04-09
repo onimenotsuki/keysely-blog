@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-hidden="true">
+  <g fill="currentColor">
+    <!-- Left block -->
+    <path d="M180 820V180h220l100 90v160l-140-120H360v510H180z" />
+    <!-- Right block -->
+    <path d="M820 820V180H600L500 270v160l140-120h0v510h180z" />
+    <!-- Center pillar -->
+    <path d="M430 820V400l70 60 70-60v420H430z" />
+  </g>
+</svg>

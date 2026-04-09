@@ -1,23 +1,23 @@
 import * as React from "react"
 import type { LucideIcon } from "lucide-react"
 
-export type WhyKeyselyItem = {
+export type WhyMocalItem = {
   title: string
   description: string
   icon: LucideIcon
 }
 
-interface WhyKeyselySectionProps {
+interface WhyMocalSectionProps {
   title?: string
   subtitle?: string
-  items: WhyKeyselyItem[]
+  items: WhyMocalItem[]
 }
 
-export function WhyKeyselySection({
-  title = "Por qué Keysely",
+export function WhyMocalSection({
+  title = "Por qué Mocal",
   subtitle = "Reserva con confianza en la plataforma líder de espacios de todo tipo en México.",
   items,
-}: WhyKeyselySectionProps) {
+}: WhyMocalSectionProps) {
   return (
     <section className="border-t border-gray-200 bg-gray-50 py-16 sm:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -38,4 +38,3 @@ export function WhyKeyselySection({
     </section>
   )
 }
-

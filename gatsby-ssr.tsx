@@ -24,7 +24,7 @@ export const onRenderBody: GatsbySSR["onRenderBody"] = ({ setHeadComponents }) =
       href="/manifest.webmanifest"
       crossOrigin="anonymous"
     />,
-    <meta key="theme-color" name="theme-color" content="#0f172a" />,
+    <meta key="theme-color" name="theme-color" content="#0a192f" />,
   ])
 }
 

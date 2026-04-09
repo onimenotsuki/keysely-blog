@@ -2,7 +2,7 @@ import * as React from "react";
 import { ArrowRight } from "lucide-react";
 import { Link } from "gatsby";
 import { GatsbyImage, type IGatsbyImageData } from "gatsby-plugin-image";
-import { withKeyselyOriginUtm } from "../../utils/links";
+import { withMocalOriginUtm } from "../../utils/links";
 
 export type FeaturedArticle = {
   title: string;
@@ -25,7 +25,7 @@ export function FeaturedArticlesSection({
   id = "articulos",
   articles,
   title = "Artículos destacados",
-  subtitle = "Los artículos más leídos en el blog de Keysely.",
+  subtitle = "Los artículos más leídos en el blog de Mocal.",
 }: FeaturedArticlesSectionProps) {
   return (
     <section
@@ -76,7 +76,7 @@ export function FeaturedArticlesSection({
                   {article.excerpt}
                 </p>
                 <Link
-                  to={withKeyselyOriginUtm(`/articles/${article.slug}/`)}
+                  to={withMocalOriginUtm(`/articles/${article.slug}/`)}
                   className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-blue"
                 >
                   Leer más <ArrowRight className="h-3.5 w-3.5" />

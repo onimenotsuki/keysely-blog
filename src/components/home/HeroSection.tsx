@@ -1,6 +1,6 @@
 import * as React from "react"
 import { BookOpen, Search } from "lucide-react"
-import { withKeyselyOriginUtm } from "../../utils/links"
+import { withMocalOriginUtm } from "../../utils/links"
 
 interface HeroSectionProps {
   title?: string
@@ -11,13 +11,13 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({
-  title = "El blog de Keysely",
+  title = "El blog de Mocal",
   description = "Descubre tendencias, guías y consejos sobre espacios de trabajo flexibles, coworking y oficinas en México.",
   backgroundImageUrl,
   primaryCta = { label: "Leer artículos", href: "/articles/", icon: <BookOpen className="h-4 w-4" /> },
   secondaryCta = {
     label: "Explorar espacios",
-    href: "https://keysely.com/search",
+    href: "https://mocal.com.mx/search",
     external: true,
     icon: <Search className="h-4 w-4" />,
   },
@@ -43,7 +43,7 @@ export function HeroSection({
               {primaryCta.label}
             </a>
             <a
-              href={withKeyselyOriginUtm(secondaryCta.href)}
+              href={withMocalOriginUtm(secondaryCta.href)}
               target={secondaryCta.external ? "_blank" : undefined}
               rel={secondaryCta.external ? "noopener noreferrer" : undefined}
               className="inline-flex h-12 items-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"

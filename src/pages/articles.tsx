@@ -389,7 +389,7 @@ export default function ArticlesPage({ location }: PageProps) {
       imageHeightClass?: string
     }) => {
       const category = getPrimaryCategory(article)
-      const summary = article.excerpt?.trim() || "Descubre más en este artículo del blog de Keysely."
+      const summary = article.excerpt?.trim() || "Descubre más en este artículo del blog de Mocal."
       const readTime = article.read_time?.trim() || "Lectura rápida"
       const fromNow = formatFromNow(article.created_at_ts)
       const TitleTag = titleTag
@@ -444,7 +444,7 @@ export default function ArticlesPage({ location }: PageProps) {
           <section className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sm:p-10">
             <div className="grid gap-8 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-8">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue">Blog Keysely</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-blue">Blog Mocal</p>
                 <h1 className="mt-3 text-4xl font-bold leading-[1.05] tracking-tight text-brand-navy sm:text-6xl">
                   <span className="block">Tu guía para el</span>
                   <span className="block">
@@ -598,14 +598,14 @@ export default function ArticlesPage({ location }: PageProps) {
 }
 
 export const Head: HeadFC = ({ location }) => {
-  const siteUrl = "https://blog.keysely.com"
-  const siteName = "Keysely Blog"
+  const siteUrl = "https://blog.mocal.com.mx"
+  const siteName = "Mocal Blog"
   return (
     <Seo
       siteUrl={siteUrl}
       siteName={siteName}
-      title="Artículos — Keysely Blog"
-      description="Explora todos los artículos de Keysely con filtros por categoría y fecha."
+      title="Artículos — Mocal Blog"
+      description="Explora todos los artículos de Mocal con filtros por categoría y fecha."
       pathname={location.pathname}
       type="website"
     />

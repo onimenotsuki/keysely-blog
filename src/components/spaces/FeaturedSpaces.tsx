@@ -2,7 +2,7 @@ import * as React from "react";
 import { MapPin } from "lucide-react";
 
 import type { MainRecommendedSpace } from "../../api/mainRecommendedSpaces";
-import { withKeyselyOriginUtm } from "../../utils/links";
+import { withMocalOriginUtm } from "../../utils/links";
 import { SpaceAmenitiesBadges } from "./SpaceAmenitiesBadges";
 
 interface FeaturedSpacesProps {
@@ -46,8 +46,8 @@ export function FeaturedSpaces({
         <>
           <div className="mt-6 grid gap-6 md:grid-cols-3">
             {spaces.map((space) => {
-              const spaceUrl = withKeyselyOriginUtm(
-                `https://keysely.com/spaces/${space.id}`,
+              const spaceUrl = withMocalOriginUtm(
+                `https://mocal.com.mx/spaces/${space.id}`,
               );
 
               return (
@@ -106,7 +106,7 @@ export function FeaturedSpaces({
 
           <div className="mt-6 flex justify-center">
             <a
-              href={withKeyselyOriginUtm("https://keysely.com/search")}
+              href={withMocalOriginUtm("https://mocal.com.mx/search")}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center rounded-full border border-gray-200 px-5 py-2 text-sm font-medium text-brand-navy hover:bg-gray-50"
