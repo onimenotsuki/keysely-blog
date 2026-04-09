@@ -76,6 +76,7 @@ function RelatedPostCard({
     <Link
       to={to}
       className="group flex items-center gap-3 rounded-lg border border-gray-100 bg-white p-3 transition-shadow hover:shadow-sm"
+      aria-label={category ? `${title}, ${category}` : title}
     >
       <div className="h-12 w-12 overflow-hidden rounded-md bg-gray-100">
         {image ? (
@@ -174,14 +175,42 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
           [BLOCKS.PARAGRAPH]: (_node, children) => (
             <p className="my-4 text-[15px] leading-7 text-gray-700">{children}</p>
           ),
+          // Post title is the page h1; demote CMS headings to preserve sequential order.
           [BLOCKS.HEADING_1]: (_node, children) => (
-            <h1 className="mt-10 text-3xl font-semibold tracking-tight text-brand-navy">{children}</h1>
+            <h2 className="mt-10 text-3xl font-semibold tracking-tight text-brand-navy">{children}</h2>
           ),
           [BLOCKS.HEADING_2]: (_node, children) => (
-            <h2 className="mt-10 text-xl font-semibold text-brand-navy">{children}</h2>
+            <h3 className="mt-10 text-xl font-semibold text-brand-navy">{children}</h3>
           ),
           [BLOCKS.HEADING_3]: (_node, children) => (
-            <h3 className="mt-8 text-lg font-semibold text-brand-navy">{children}</h3>
+            <h4 className="mt-8 text-lg font-semibold text-brand-navy">{children}</h4>
+          ),
+          [BLOCKS.HEADING_4]: (_node, children) => (
+            <h5 className="mt-6 text-base font-semibold text-brand-navy">{children}</h5>
+          ),
+          [BLOCKS.HEADING_5]: (_node, children) => (
+            <h6 className="mt-6 text-sm font-semibold uppercase tracking-wide text-brand-navy">{children}</h6>
+          ),
+          [BLOCKS.HEADING_6]: (_node, children) => (
+            <h6 className="mt-4 text-sm font-semibold text-gray-800">{children}</h6>
+          ),
+          [BLOCKS.HR]: () => <hr className="my-10 border-t border-gray-200" />,
+          [BLOCKS.LIST_ITEM]: (_node, children) => <li className="leading-7">{children}</li>,
+          [BLOCKS.TABLE]: (_node, children) => (
+            <div className="my-6 overflow-x-auto">
+              <table className="min-w-full border-collapse border border-gray-200 text-sm text-gray-800">
+                <tbody>{children}</tbody>
+              </table>
+            </div>
+          ),
+          [BLOCKS.TABLE_ROW]: (_node, children) => <tr>{children}</tr>,
+          [BLOCKS.TABLE_CELL]: (_node, children) => (
+            <td className="border border-gray-200 px-3 py-2 align-top">{children}</td>
+          ),
+          [BLOCKS.TABLE_HEADER_CELL]: (_node, children) => (
+            <th scope="col" className="border border-gray-200 bg-gray-50 px-3 py-2 text-left font-semibold text-brand-navy">
+              {children}
+            </th>
           ),
           [BLOCKS.UL_LIST]: (_node, children) => (
             <ul className="my-4 list-disc space-y-2 pl-6 text-[15px] leading-7 text-gray-700">
@@ -306,7 +335,11 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                 </div>
 
                 {shareCopied ? (
-                  <div className="mt-3 inline-flex items-center rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700">
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="mt-3 inline-flex items-center rounded-md bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700"
+                  >
                     Link copiado al portapapeles
                   </div>
                 ) : null}
@@ -315,7 +348,7 @@ export default function ContentfulBlogPostPage({ data, location }: Props) {
                   <div className="mt-8 overflow-hidden rounded-2xl border border-gray-100">
                     <GatsbyImage
                       image={coverImage}
-                      alt=""
+                      alt={post.title ? `Imagen destacada: ${post.title}` : "Imagen destacada del artículo"}
                       className="h-full w-full max-h-[420px] object-cover"
                     />
                   </div>

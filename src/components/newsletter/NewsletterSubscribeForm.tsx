@@ -45,6 +45,8 @@ export function NewsletterSubscribeForm({
     },
   })
 
+  const emailFieldId = React.useId()
+
   const {
     register,
     handleSubmit,
@@ -70,10 +72,13 @@ export function NewsletterSubscribeForm({
   return (
     <div>
       <form onSubmit={onSubmit} className={formClassName} noValidate>
+        <label htmlFor={emailFieldId} className="sr-only">
+          {ariaLabel}
+        </label>
         <input
+          id={emailFieldId}
           type="email"
           placeholder={placeholder}
-          aria-label={ariaLabel}
           autoComplete="email"
           disabled={isPending}
           {...register("email")}

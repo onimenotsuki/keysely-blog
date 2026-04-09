@@ -1,6 +1,7 @@
 import * as React from "react"
 import type { LucideIcon } from "lucide-react"
 import { ArrowRight } from "lucide-react"
+import { Link } from "gatsby"
 
 export type CategoryCard = {
   title: string
@@ -31,21 +32,25 @@ export function CategoriesSection({
         </div>
 
         <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
-          {categories.map(({ title: categoryTitle, description, icon: Icon, colorClassName }) => (
-            <div
-              key={categoryTitle}
-              className="group cursor-pointer rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${colorClassName}`}>
-                <Icon className="h-6 w-6" aria-hidden="true" />
-              </div>
-              <h3 className="mt-4 font-semibold text-brand-navy">{categoryTitle}</h3>
-              <p className="mt-2 text-sm text-gray-500">{description}</p>
-              <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-blue transition-colors group-hover:text-brand-blue/80">
-                Ver artículos <ArrowRight className="h-3.5 w-3.5" />
-              </span>
-            </div>
-          ))}
+          {categories.map(({ title: categoryTitle, description, icon: Icon, colorClassName }) => {
+            const categoryHref = `/articles/?categories=${encodeURIComponent(categoryTitle)}`
+            return (
+              <Link
+                key={categoryTitle}
+                to={categoryHref}
+                className="group block rounded-xl border border-gray-100 bg-white p-6 shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-blue focus:ring-offset-2"
+              >
+                <div className={`flex h-12 w-12 items-center justify-center rounded-lg ${colorClassName}`}>
+                  <Icon className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <h3 className="mt-4 font-semibold text-brand-navy">{categoryTitle}</h3>
+                <p className="mt-2 text-sm text-gray-500">{description}</p>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-blue transition-colors group-hover:text-brand-blue/80">
+                  Ver artículos <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                </span>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

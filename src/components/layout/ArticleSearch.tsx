@@ -56,6 +56,7 @@ export function ArticleSearch() {
   const [resultsFound, setResultsFound] = React.useState(0)
   const [isLoading, setIsLoading] = React.useState(false)
   const inputRef = React.useRef<HTMLInputElement | null>(null)
+  const searchInputId = React.useId()
 
   const client = React.useMemo(() => {
     const host = process.env.GATSBY_TYPESENSE_HOST
@@ -170,7 +171,7 @@ export function ArticleSearch() {
         className="inline-flex h-9 items-center gap-2 rounded-md border border-brand-blue/40 bg-brand-blue/10 px-3 text-sm font-medium text-brand-navy transition-colors hover:bg-brand-blue/20"
         onClick={() => setIsDialogOpen(true)}
       >
-        <Search className="h-4 w-4" />
+        <Search className="h-4 w-4" aria-hidden="true" />
         Buscar
       </button>
 
@@ -188,14 +189,17 @@ export function ArticleSearch() {
                 onClick={(event) => event.stopPropagation()}
               >
                 <div className="border-b border-brand-blue/10 p-4">
-                  <label htmlFor="header-article-search" className="sr-only">
+                  <label htmlFor={searchInputId} className="sr-only">
                     Buscar artículos
                   </label>
                   <div className="relative">
-                    <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-navy/50" />
+                    <Search
+                      className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-brand-navy/50"
+                      aria-hidden="true"
+                    />
                     <input
                       ref={inputRef}
-                      id="header-article-search"
+                      id={searchInputId}
                       type="text"
                       value={query}
                       onChange={(event) => setQuery(event.target.value)}
@@ -208,7 +212,7 @@ export function ArticleSearch() {
                       onClick={() => setIsDialogOpen(false)}
                       aria-label="Cerrar búsqueda"
                     >
-                      <X className="h-4 w-4" />
+                      <X className="h-4 w-4" aria-hidden="true" />
                     </button>
                   </div>
                 </div>
@@ -216,7 +220,7 @@ export function ArticleSearch() {
                 <div className="max-h-[60vh] min-h-[80px] overflow-y-auto">
                   {isLoading ? (
                     <div className="flex items-center gap-2 px-4 py-3 text-sm text-brand-navy/70">
-                      <Loader2 className="h-4 w-4 animate-spin text-brand-blue" />
+                      <Loader2 className="h-4 w-4 animate-spin text-brand-blue" aria-hidden="true" />
                       Buscando...
                     </div>
                   ) : null}

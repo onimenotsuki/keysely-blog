@@ -39,7 +39,7 @@ export function HeroSection({
               href={primaryCta.href}
               className="inline-flex h-12 items-center gap-2 rounded-full bg-brand-blue px-8 text-sm font-medium text-white transition-colors hover:bg-brand-blue/90"
             >
-              {primaryCta.icon}
+              <span aria-hidden="true">{primaryCta.icon}</span>
               {primaryCta.label}
             </a>
             <a
@@ -48,7 +48,7 @@ export function HeroSection({
               rel={secondaryCta.external ? "noopener noreferrer" : undefined}
               className="inline-flex h-12 items-center gap-2 rounded-full border border-white/30 bg-white/10 px-8 text-sm font-medium text-white backdrop-blur-sm transition-colors hover:bg-white/20"
             >
-              {secondaryCta.icon}
+              <span aria-hidden="true">{secondaryCta.icon}</span>
               {secondaryCta.label}
             </a>
           </div>

@@ -49,7 +49,7 @@ export function AmenityIcon({ iconUrl, className, label }: AmenityIconProps) {
   if (lucideIcon) {
     const IconComponent = lucideIcon
     return (
-      <span title={label ?? undefined}>
+      <span title={label ?? undefined} aria-label={label || undefined} className="inline-flex">
         <IconComponent className={iconClassName} aria-hidden />
       </span>
     )
@@ -60,7 +60,7 @@ export function AmenityIcon({ iconUrl, className, label }: AmenityIconProps) {
 
   if (labIconNode && Array.isArray(labIconNode)) {
     return (
-      <span title={label ?? undefined}>
+      <span title={label ?? undefined} aria-label={label || undefined} className="inline-flex">
         <Icon iconNode={labIconNode} className={iconClassName} aria-hidden />
       </span>
     )

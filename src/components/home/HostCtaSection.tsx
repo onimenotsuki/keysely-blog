@@ -25,7 +25,7 @@ export function HostCtaSection({
             rel="noopener noreferrer"
             className="inline-flex h-12 items-center gap-2 rounded-md bg-white px-8 text-sm font-medium text-brand-navy transition-colors hover:bg-white/90"
           >
-            <MapPin className="h-4 w-4" />
+            <MapPin className="h-4 w-4" aria-hidden="true" />
             {cta.label}
           </a>
         </div>

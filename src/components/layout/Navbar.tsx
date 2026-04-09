@@ -8,10 +8,14 @@ const MAIN_SITE = "https://mocal.com.mx"
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = React.useState(false)
+  const mobileNavId = React.useId()
 
   return (
     <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
-      <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav
+        aria-label="Navegación principal"
+        className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+      >
         <Link to="/" className="flex items-center gap-3" aria-label="Mocal Blog — inicio">
           <span className="text-brand-navy" aria-hidden>
             <img src={mocalLogoUrl} alt="" className="h-8 w-8" />
@@ -46,14 +50,16 @@ export function Navbar() {
             type="button"
             className="inline-flex items-center justify-center rounded-md p-2 text-gray-500 hover:bg-gray-100 hover:text-brand-navy"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+            aria-controls={mobileNavId}
+            aria-label={menuOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
           >
             {menuOpen ? (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
+              <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
               </svg>
             )}
@@ -61,28 +67,30 @@ export function Navbar() {
         </div>
       </nav>
 
-      {menuOpen && (
-        <div className="border-t border-gray-200 bg-white px-4 py-4 md:hidden">
-          <div className="flex flex-col gap-3">
-            <a
-              href={withMocalOriginUtm(MAIN_SITE)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm font-medium text-gray-600 hover:text-brand-navy"
-            >
-              Ir a Mocal
-            </a>
-            <a
-              href={withMocalOriginUtm(`${MAIN_SITE}/search`)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex h-9 w-fit items-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white"
-            >
-              Explorar espacios
-            </a>
-          </div>
+      <div
+        id={mobileNavId}
+        hidden={!menuOpen}
+        className="border-t border-gray-200 bg-white px-4 py-4 md:hidden"
+      >
+        <div className="flex flex-col gap-3">
+          <a
+            href={withMocalOriginUtm(MAIN_SITE)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm font-medium text-gray-600 hover:text-brand-navy"
+          >
+            Ir a Mocal
+          </a>
+          <a
+            href={withMocalOriginUtm(`${MAIN_SITE}/search`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex h-9 w-fit items-center rounded-md bg-brand-blue px-4 text-sm font-medium text-white"
+          >
+            Explorar espacios
+          </a>
         </div>
-      )}
+      </div>
     </header>
   )
 }

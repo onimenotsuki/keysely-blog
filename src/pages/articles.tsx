@@ -190,6 +190,9 @@ function parseFacetCounts(input: unknown): FacetItem[] {
 }
 
 export default function ArticlesPage({ location }: PageProps) {
+  const articleSearchFieldId = React.useId()
+  const articleSortFieldId = React.useId()
+
   const [state, setState] = React.useState<SearchState>(() => getInitialState(location.search))
   const [articles, setArticles] = React.useState<TypesenseDoc[]>([])
   const [facets, setFacets] = React.useState<FacetItem[]>([])
@@ -427,8 +430,9 @@ export default function ArticlesPage({ location }: PageProps) {
             <Link
               to={getArticlePath(article)}
               className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-blue"
+              aria-label={`Leer más: ${article.title ?? "Artículo"}`}
             >
-              Leer más <ArrowRight className="h-3.5 w-3.5" />
+              Leer más <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
           </div>
         </article>
@@ -461,26 +465,39 @@ export default function ArticlesPage({ location }: PageProps) {
 
             <div className="mt-8 space-y-4 border-t border-gray-100 pt-6">
               <div className="flex flex-col gap-3 sm:flex-row">
-                <input
-                  value={state.q}
-                  onChange={(event) => updateQuery({ q: event.target.value })}
-                  placeholder="Buscar artículos..."
-                  className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-brand-navy outline-none ring-brand-blue transition focus:border-brand-blue focus:ring-2 sm:basis-3/4 sm:grow"
-                />
-                <select
-                  value={state.sort}
-                  onChange={(event) => updateQuery({ sort: parseSort(event.target.value) })}
-                  className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-brand-navy outline-none ring-brand-blue transition focus:border-brand-blue focus:ring-2 sm:basis-1/4 sm:grow-0"
-                >
-                  <option value="created_at_ts:desc">Ordenar por: Más recientes</option>
-                  <option value="created_at_ts:asc">Ordenar por: Más antiguos</option>
-                </select>
+                <div className="flex w-full flex-col gap-1 sm:basis-3/4 sm:grow">
+                  <label htmlFor={articleSearchFieldId} className="text-xs font-medium text-gray-600">
+                    Buscar artículos
+                  </label>
+                  <input
+                    id={articleSearchFieldId}
+                    value={state.q}
+                    onChange={(event) => updateQuery({ q: event.target.value })}
+                    placeholder="Buscar artículos..."
+                    className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-brand-navy outline-none ring-brand-blue transition focus:border-brand-blue focus:ring-2"
+                  />
+                </div>
+                <div className="flex w-full flex-col gap-1 sm:basis-1/4 sm:grow-0">
+                  <label htmlFor={articleSortFieldId} className="text-xs font-medium text-gray-600">
+                    Ordenar por
+                  </label>
+                  <select
+                    id={articleSortFieldId}
+                    value={state.sort}
+                    onChange={(event) => updateQuery({ sort: parseSort(event.target.value) })}
+                    className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-brand-navy outline-none ring-brand-blue transition focus:border-brand-blue focus:ring-2"
+                  >
+                    <option value="created_at_ts:desc">Más recientes</option>
+                    <option value="created_at_ts:asc">Más antiguos</option>
+                  </select>
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-2">
                 <button
                   type="button"
                   onClick={() => updateQuery({ categories: [] })}
+                  aria-pressed={state.categories.length === 0}
                   className={`rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${
                     state.categories.length === 0
                       ? "border-brand-blue bg-brand-blue text-white"
@@ -495,6 +512,7 @@ export default function ArticlesPage({ location }: PageProps) {
                     <button
                       key={facet.value}
                       type="button"
+                      aria-pressed={selected}
                       onClick={() => {
                         const nextCategories = selected
                           ? state.categories.filter((item) => item !== facet.value)
@@ -576,7 +594,7 @@ export default function ArticlesPage({ location }: PageProps) {
                     className="inline-flex h-11 items-center gap-2 rounded-full border border-brand-blue/30 bg-white px-6 text-sm font-medium text-brand-navy transition-colors hover:bg-brand-blue/10"
                   >
                     Cargar más artículos
-                    <ArrowDown className="h-4 w-4" />
+                    <ArrowDown className="h-4 w-4" aria-hidden="true" />
                   </button>
                 </div>
               ) : null}

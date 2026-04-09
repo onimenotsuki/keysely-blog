@@ -2,7 +2,8 @@ import * as React from "react"
 import type { GatsbySSR } from "gatsby"
 import { AppProviders } from "./src/providers/AppProviders"
 
-export const onRenderBody: GatsbySSR["onRenderBody"] = ({ setHeadComponents }) => {
+export const onRenderBody: GatsbySSR["onRenderBody"] = ({ setHeadComponents, setHtmlAttributes }) => {
+  setHtmlAttributes({ lang: "es-MX" })
   setHeadComponents([
     <link key="favicon" rel="icon" type="image/png" href="/favicon.png" />,
     <link

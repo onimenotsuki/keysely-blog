@@ -78,8 +78,9 @@ export function FeaturedArticlesSection({
                 <Link
                   to={withMocalOriginUtm(`/articles/${article.slug}/`)}
                   className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-brand-blue"
+                  aria-label={`Leer más: ${article.title}`}
                 >
-                  Leer más <ArrowRight className="h-3.5 w-3.5" />
+                  Leer más <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                 </Link>
               </div>
             </article>
@@ -90,7 +91,7 @@ export function FeaturedArticlesSection({
             to="/articles/"
             className="inline-flex items-center gap-1 text-sm font-medium text-brand-blue"
           >
-            Ver todos los artículos <ArrowRight className="h-3.5 w-3.5" />
+            Ver todos los artículos <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
           </Link>
         </div>
       </div>
