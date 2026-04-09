@@ -25,7 +25,7 @@ const config: GatsbyConfig = {
      rootDir: `${__dirname}/public`,
      exclude: /^\/(?!articles\/).*/,
      collectionSchema: {
-       name: process.env.TYPESENSE_BLOG_COLLECTION ?? "blog_articles_v1",
+       name: process.env.TYPESENSE_BLOG_COLLECTION ?? "blog_articles",
        fields: [
          {
            name: "title",

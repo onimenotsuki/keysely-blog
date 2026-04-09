@@ -270,7 +270,7 @@ export default function ArticlesPage({ location }: PageProps) {
   }, [])
 
   const collectionName =
-    process.env.GATSBY_TYPESENSE_BLOG_COLLECTION ?? "blog_articles_v1"
+    process.env.GATSBY_TYPESENSE_BLOG_COLLECTION ?? "blog_articles"
 
   React.useEffect(() => {
     let isCancelled = false
