@@ -81,7 +81,7 @@ const howItWorks: HowItWorksStep[] = [
   {
     step: "3",
     title: "Disfruta",
-    description: "Gestiona tus reservas y reseñas desde tu panel.",
+    description: "Gestiona tus reservas y reseñas desde tu panel de administración.",
   },
 ];
 
