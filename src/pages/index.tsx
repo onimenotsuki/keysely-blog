@@ -57,7 +57,7 @@ const whyMocal: WhyMocalItem[] = [
   },
   {
     title: "Flexibilidad",
-    description: "Por hora, día o mes según lo que necesites.",
+    description: "Por hora, día o semana según lo que necesites.",
     icon: Calendar,
   },
   {

@@ -9,7 +9,7 @@ interface HostCtaSectionProps {
 }
 
 export function HostCtaSection({
-  title = "¿Tienes un espacio? Lista tu espacio en Mocal",
+  title = "¿Tienes un espacio? Lista tu espacio en Mocal y gana dinero.",
   description = "Llega a miles de profesionales que buscan oficinas, salas de juntas y coworkings. Gestiona reservas y cobra de forma segura.",
   cta,
 }: HostCtaSectionProps) {
